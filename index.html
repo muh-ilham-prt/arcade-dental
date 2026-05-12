@@ -444,10 +444,10 @@
         <div id="leafletMap" class="w-full h-80"></div>
         <div class="bg-white px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
-            <div class="font-bold text-ink text-[14px]">Arcade Dental – Kemang</div>
-            <div class="text-smoke text-[12px]">Jl. Kemang Raya No. 88, Jakarta Selatan</div>
+            <div class="font-bold text-ink text-[14px]">Arcade Dental – Bintaro</div>
+            <div class="text-smoke text-[12px]">Jl. Jl. Boulevard Bintaro Jaya No.19 Blok B2, Tangerang Selatan</div>
           </div>
-          <a href="https://maps.google.com/?q=-6.2607,106.8147" target="_blank" rel="noopener noreferrer"
+          <a href="https://maps.google.com/?q=-6.2722795,106.712541" target="_blank" rel="noopener noreferrer"
              class="flex items-center gap-1.5 bg-gold text-ink font-bold text-[12px] px-4 py-2.5 rounded-xl hover:bg-gold-light transition-all hover:scale-105 active:scale-95 shrink-0">
             <iconify-icon icon="solar:map-point-bold"></iconify-icon>Buka Maps
             <iconify-icon icon="solar:arrow-right-up-linear"></iconify-icon>
@@ -462,7 +462,9 @@
           </div>
           <div>
             <h4 class="font-bold text-ink text-[14px] mb-1">Alamat Klinik</h4>
-            <p class="text-smoke text-[13px] leading-relaxed">Jl. Kemang Raya No. 88, RT 01/RW 03,<br/>Kemang, Pancoran, Jakarta Selatan 12730</p>
+            <p class="text-smoke text-[13px] leading-relaxed">
+              Ruko Kebayoran Arcade II, Jl. Boulevard Bintaro Jaya No.19 Blok B2, <br> Pd. Jaya, Kec. Pd. Aren, Kota Tangerang Selatan, Banten 15220
+            </p>
           </div>
         </div>
         <div class="bg-white rounded-3xl p-5 border border-ink/5 flex items-start gap-4 hover:shadow-md transition-shadow">
@@ -493,7 +495,7 @@
           </div>
           <div>
             <h4 class="font-bold text-ink text-[14px] mb-1">Akses Transportasi</h4>
-            <p class="text-smoke text-[13px] leading-relaxed">5 menit dari Halte Kemang Timur · Parkir luas · Ojek online mudah</p>
+            <p class="text-smoke text-[13px] leading-relaxed">10 menit dari stasiun jurang mangu · Parkir luas · Ojek online mudah</p>
           </div>
         </div>
         <a href="https://maps.google.com/?q=-6.2607,106.8147" target="_blank" rel="noopener noreferrer"
@@ -588,7 +590,7 @@
       <div class="space-y-4">
         <h4 class="text-white font-semibold text-[13px]">Kontak</h4>
         <ul class="space-y-3 text-white/35 text-[13px]">
-          <li class="flex items-start gap-2"><iconify-icon icon="solar:map-point-linear" class="text-gold shrink-0 mt-0.5"></iconify-icon>Jl. Kemang Raya No. 88, Jakarta Selatan</li>
+          <li class="flex items-start gap-2"><iconify-icon icon="solar:map-point-linear" class="text-gold shrink-0 mt-0.5"></iconify-icon>Jl. Boulevard Bintaro Jaya No.19 Blok B2, Tangerang Selatan</li>
           <li class="flex items-center gap-2"><iconify-icon icon="solar:phone-linear" class="text-gold"></iconify-icon>(021) 123-4567</li>
           <li class="flex items-center gap-2"><iconify-icon icon="solar:letter-linear" class="text-gold"></iconify-icon>halo@arcadedental.id</li>
         </ul>
@@ -813,7 +815,7 @@
   const chatAnswers = {
     'info jadwal':'Jadwal dokter kami:\n\n📅 drg. Sarah (Ortodontis)\nSenin, Selasa, Rabu, Jumat, Sabtu\n\n📅 drg. Rizal (Gigi Umum)\nSenin, Selasa, Kamis, Jumat, Sabtu, Minggu\n\n📅 drg. Anita (Konservasi)\nSelasa, Rabu, Kamis, Sabtu\n\nMau langsung buat janji? 😊',
     'harga':'Estimasi harga layanan kami:\n\n🦷 Scaling — Rp150.000\n✨ Bleaching — Rp500.000\n🔧 Tambal gigi — Rp200.000\n📐 Kawat gigi — Rp8.000.000\n⭐ Veneer — Rp3.500.000\n🦴 Implan — Rp15.000.000\n\nHarga final ditentukan setelah pemeriksaan langsung.',
-    'lokasi':'📍 Alamat kami:\n\nJl. Kemang Raya No. 88\nKemang, Jakarta Selatan 12730\n\n🚌 5 mnt dari Halte Kemang Timur\n🚗 Parkir luas tersedia\n🛵 Mudah dijangkau ojek online\n\nJam buka: Senin–Jumat 08.00–20.00\nSabtu 08.00–16.00, Minggu 09.00–14.00',
+    'lokasi':'📍 Alamat kami:\n\nJl. Boulevard Bintaro Jaya No.19 Blok B2\nBintaro, Tangerang Selatan 12730\n\n🚌 10 mnt dari Stasiun Jurang Mangu\n🚗 Parkir luas tersedia\n🛵 Mudah dijangkau ojek online\n\nJam buka: Senin–Jumat 08.00–20.00\nSabtu 08.00–16.00, Minggu 09.00–14.00',
     'buat janji':'Tentu! Klik tombol di bawah untuk memilih dokter dan jadwal yang Anda inginkan 🗓️',
   };
 
@@ -942,7 +944,7 @@
 
   // ── Leaflet Map ──────────────────────────────────────────────────────────
   function initMap() {
-    const map = L.map('leafletMap', { scrollWheelZoom:false }).setView([-6.2607, 106.8147], 16);
+    const map = L.map('leafletMap', { scrollWheelZoom:false }).setView([-6.2722795,106.712541], 16);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution:'© <a href="https://openstreetmap.org/copyright">OpenStreetMap</a>', maxZoom:19
     }).addTo(map);
@@ -954,12 +956,12 @@
       iconSize:[42,42], iconAnchor:[21,42], popupAnchor:[0,-46]
     });
 
-    L.marker([-6.2607,106.8147],{icon}).addTo(map)
+    L.marker([-6.2722795,106.712541],{icon}).addTo(map)
      .bindPopup(`<div style="font-family:Ubuntu,sans-serif;padding:4px 2px;min-width:170px">
        <div style="font-weight:700;font-size:13px;color:#0E0E14;margin-bottom:3px">🦷 Arcade Dental</div>
-       <div style="font-size:12px;color:#6B6B8A">Jl. Kemang Raya No. 88</div>
-       <div style="font-size:12px;color:#6B6B8A;margin-bottom:8px">Jakarta Selatan 12730</div>
-       <a href="https://maps.google.com/?q=-6.2607,106.8147" target="_blank"
+       <div style="font-size:12px;color:#6B6B8A">Jl. Boulevard Bintaro Jaya No.19 Blok B2</div>
+       <div style="font-size:12px;color:#6B6B8A;margin-bottom:8px">Tangerang Selatan 15220</div>
+       <a href="https://maps.google.com/?q=-6.2722795,106.712541" target="_blank"
           style="display:inline-block;background:#F8C463;color:#0E0E14;font-weight:700;font-size:11px;padding:5px 12px;border-radius:20px;text-decoration:none">
          Buka di Google Maps ↗</a></div>`, {maxWidth:240}).openPopup();
   }
