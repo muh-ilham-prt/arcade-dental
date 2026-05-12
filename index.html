@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arcade Dental – Klinik Gigi Terpercaya</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { ubuntu: ['Ubuntu','sans-serif'] },
+          colors: {
+            gold: '#F8C463',
+            'gold-light': '#FBD98A',
+            'gold-dark': '#C89B2A',
+            cream: '#FFFAF0',
+            'cream-2': '#F5F0E4',
+            'off-white': '#F5F5F5',
+            ink: '#0E0E14',
+            'ink-soft': '#1A1A28',
+            'ink-muted': '#26263A',
+            smoke: '#6B6B8A',
+          },
+          keyframes: {
+            blob: {
+              '0%,100%': { transform:'translate(0,0) scale(1)' },
+              '33%': { transform:'translate(40px,-60px) scale(1.15)' },
+              '66%': { transform:'translate(-30px,30px) scale(0.88)' },
+            },
+            floatY: {
+              '0%,100%': { transform:'translateY(0)' },
+              '50%': { transform:'translateY(-16px)' },
+            },
+            scanLine: {
+              '0%': { top:'-2px' },
+              '100%': { top:'100%' },
+            },
+            spinSlow: {
+              '0%': { transform:'rotate(0deg)' },
+              '100%': { transform:'rotate(360deg)' },
+            },
+            pulseRing: {
+              '0%': { transform:'scale(0.85)', opacity:'0.5' },
+              '70%': { transform:'scale(1.45)', opacity:'0' },
+              '100%': { transform:'scale(1.45)', opacity:'0' },
+            },
+            fadeUp: {
+              '0%': { opacity:'0', transform:'translateY(22px)' },
+              '100%': { opacity:'1', transform:'translateY(0)' },
+            },
+            slideIn: {
+              '0%': { opacity:'0', transform:'translateX(28px)' },
+              '100%': { opacity:'1', transform:'translateX(0)' },
+            },
+            chatUp: {
+              '0%': { opacity:'0', transform:'translateY(12px) scale(0.97)' },
+              '100%': { opacity:'1', transform:'translateY(0) scale(1)' },
+            },
+            typing: {
+              '0%,60%,100%': { transform:'translateY(0)' },
+              '30%': { transform:'translateY(-5px)' },
+            },
+          },
+          animation: {
+            blob: 'blob 8s infinite ease-in-out',
+            'blob-2': 'blob 10s 2s infinite ease-in-out',
+            'blob-3': 'blob 9s 4s infinite ease-in-out',
+            'float-1': 'floatY 4s ease-in-out infinite',
+            'float-2': 'floatY 4s 1s ease-in-out infinite',
+            'float-3': 'floatY 4s 2s ease-in-out infinite',
+            'float-4': 'floatY 4s 3s ease-in-out infinite',
+            'spin-slow': 'spinSlow 20s linear infinite',
+            'spin-slow-r': 'spinSlow 14s linear infinite reverse',
+            'pulse-ring': 'pulseRing 2.5s cubic-bezier(0.215,0.61,0.355,1) infinite',
+            'pulse-ring-2': 'pulseRing 2.5s 0.8s cubic-bezier(0.215,0.61,0.355,1) infinite',
+            'fade-up': 'fadeUp 0.6s ease forwards',
+            'slide-in': 'slideIn 0.55s ease forwards',
+            'chat-up': 'chatUp 0.28s ease forwards',
+            'typing-1': 'typing 1.2s 0s ease-in-out infinite',
+            'typing-2': 'typing 1.2s 0.15s ease-in-out infinite',
+            'typing-3': 'typing 1.2s 0.3s ease-in-out infinite',
+          },
+        },
+      },
+    }
+  </script>
+</head>
+<body class="font-ubuntu bg-cream text-ink antialiased">
+
+<!-- ═══════ NAVBAR ═══════ -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 h-[68px] flex items-center justify-between">
+    <a href="#hero" class="flex items-center gap-2">
+      <iconify-icon icon="solar:tooth-bold" class="text-gold text-[28px]"></iconify-icon>
+      <span class="font-ubuntu text-[21px] font-bold leading-none tracking-tight">
+        <span class="text-gold">Arcade</span><span id="logoDental" class="text-white"> Dental</span>
+      </span>
+    </a>
+    <div id="navLinks" class="hidden md:flex items-center gap-7 text-[13px] font-medium text-white/80">
+      <a href="#layanan" class="hover:text-gold transition-colors">Layanan</a>
+      <a href="#dokter" class="hover:text-gold transition-colors">Dokter</a>
+      <a href="#jadwal" class="hover:text-gold transition-colors">Jadwal</a>
+      <a href="#lokasi" class="hover:text-gold transition-colors">Lokasi</a>
+      <a href="#ulasan" class="hover:text-gold transition-colors">Ulasan</a>
+    </div>
+    <div class="hidden md:flex items-center gap-3">
+      <a href="tel:+62211234567" id="navPhone" class="flex items-center gap-1.5 text-white/70 text-[13px] hover:text-gold transition-colors font-medium">
+        <iconify-icon icon="solar:phone-bold" class="text-gold text-[15px]"></iconify-icon>(021) 123-4567
+      </a>
+      <button onclick="openKonsultasiModal(null)" class="bg-gold text-ink font-bold text-[13px] px-5 py-2.5 rounded-full hover:bg-gold-light transition-all duration-200 hover:scale-105 active:scale-95">
+        Konsultasi
+      </button>
+    </div>
+    <button id="menuBtn" class="md:hidden text-white text-[24px]" onclick="toggleMobileMenu()">
+      <iconify-icon icon="solar:hamburger-menu-bold"></iconify-icon>
+    </button>
+  </div>
+  <div id="mobileMenu" class="hidden md:hidden bg-ink-soft border-t border-white/10 px-6 py-5 space-y-4">
+    <a href="#layanan" onclick="toggleMobileMenu()" class="block text-white/80 hover:text-gold font-medium">Layanan</a>
+    <a href="#dokter" onclick="toggleMobileMenu()" class="block text-white/80 hover:text-gold font-medium">Dokter</a>
+    <a href="#jadwal" onclick="toggleMobileMenu()" class="block text-white/80 hover:text-gold font-medium">Jadwal</a>
+    <a href="#lokasi" onclick="toggleMobileMenu()" class="block text-white/80 hover:text-gold font-medium">Lokasi</a>
+    <a href="#ulasan" onclick="toggleMobileMenu()" class="block text-white/80 hover:text-gold font-medium">Ulasan</a>
+    <button onclick="openKonsultasiModal(null); toggleMobileMenu()" class="w-full bg-gold text-ink font-bold py-3 rounded-full text-[14px]">Konsultasi Sekarang</button>
+  </div>
+</nav>
+
+<!-- ═══════ HERO ═══════ -->
+<section id="hero" class="relative bg-ink min-h-screen flex items-center overflow-hidden">
+
+  <!-- Animated Gradient Blobs -->
+  <div class="absolute w-[700px] h-[700px] rounded-full bg-gold/20 blur-[130px] -top-48 -right-48 animate-blob pointer-events-none"></div>
+  <div class="absolute w-[500px] h-[500px] rounded-full bg-blue-600/15 blur-[100px] bottom-0 -left-24 animate-blob-2 pointer-events-none"></div>
+  <div class="absolute w-[400px] h-[400px] rounded-full bg-purple-600/10 blur-[90px] top-1/3 left-1/3 animate-blob-3 pointer-events-none"></div>
+
+  <!-- Dot Grid -->
+  <div class="absolute inset-0 pointer-events-none opacity-[0.04]">
+    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+          <circle cx="1.5" cy="1.5" r="1.5" fill="#F8C463"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#dots)"/>
+    </svg>
+  </div>
+
+  <!-- Scan Line -->
+  <div class="absolute left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-gold/25 to-transparent animate-[scanLine_4s_linear_infinite] pointer-events-none"></div>
+
+  <!-- Decorative Rings -->
+  <div class="absolute top-20 right-6 w-36 h-36 rounded-full border border-gold/15 animate-spin-slow pointer-events-none"></div>
+  <div class="absolute top-32 right-20 w-14 h-14 rounded-full border border-gold/25 animate-spin-slow-r pointer-events-none"></div>
+  <div class="absolute bottom-28 left-6 w-20 h-20 rounded-full border border-blue-400/10 animate-spin-slow pointer-events-none"></div>
+
+  <!-- Floating Icons -->
+  <div class="absolute top-36 left-[7%] opacity-20 animate-float-1 pointer-events-none">
+    <iconify-icon icon="solar:tooth-bold" class="text-gold text-[52px]"></iconify-icon>
+  </div>
+  <div class="absolute top-52 right-[8%] opacity-15 animate-float-2 pointer-events-none">
+    <iconify-icon icon="solar:stars-bold" class="text-gold-light text-[36px]"></iconify-icon>
+  </div>
+  <div class="absolute bottom-36 left-[14%] opacity-10 animate-float-3 pointer-events-none">
+    <iconify-icon icon="solar:heart-pulse-bold" class="text-gold text-[44px]"></iconify-icon>
+  </div>
+  <div class="absolute bottom-52 right-[18%] opacity-10 animate-float-4 pointer-events-none">
+    <iconify-icon icon="solar:shield-check-bold" class="text-blue-300 text-[32px]"></iconify-icon>
+  </div>
+
+  <!-- Hero Content -->
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 pt-28 pb-20 grid lg:grid-cols-2 gap-14 items-center w-full relative z-10">
+    <!-- Left -->
+    <div class="space-y-8 animate-fade-up">
+      <div class="inline-flex items-center gap-2 bg-gold/10 border border-gold/20 rounded-full px-4 py-1.5 text-gold text-[13px] font-medium">
+        <iconify-icon icon="solar:verified-check-bold"></iconify-icon>
+        Klinik Gigi Terpercaya Sejak 2012
+      </div>
+      <h1 class="font-ubuntu text-5xl lg:text-[63px] font-bold text-white leading-[1.1] tracking-tight">
+        Senyum<br/><span class="text-gold">Terbaik</span><br/>Dimulai Sini.
+      </h1>
+      <p class="text-white/55 text-[16px] leading-relaxed max-w-[420px] font-light">
+        Arcade Dental hadir dengan dokter berpengalaman, teknologi modern, dan layanan penuh kasih untuk menjaga kesehatan gigi dan senyum terbaik Anda.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <button onclick="openKonsultasiModal(null)" class="flex items-center justify-center gap-2 bg-gold text-ink font-bold px-7 py-4 rounded-full hover:bg-gold-light transition-all duration-200 hover:scale-105 active:scale-95 text-[15px]">
+          <iconify-icon icon="solar:calendar-add-bold" class="text-xl"></iconify-icon>
+          Buat Janji Konsultasi
+        </button>
+        <a href="#dokter" class="flex items-center justify-center gap-2 border border-white/20 text-white/80 font-medium px-7 py-4 rounded-full hover:border-gold/50 hover:text-gold transition-all duration-200 text-[15px]">
+          Lihat Tim Dokter <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+        </a>
+      </div>
+      <!-- Stats -->
+      <div class="flex flex-wrap gap-8 pt-4 border-t border-white/10">
+        <div>
+          <div class="font-ubuntu text-[28px] font-bold text-gold">12+</div>
+          <div class="text-white/40 text-[12px]">Tahun Berdiri</div>
+        </div>
+        <div class="w-px bg-white/10 self-stretch"></div>
+        <div>
+          <div class="font-ubuntu text-[28px] font-bold text-gold">8.000+</div>
+          <div class="text-white/40 text-[12px]">Pasien Puas</div>
+        </div>
+        <div class="w-px bg-white/10 self-stretch"></div>
+        <div>
+          <div class="font-ubuntu text-[28px] font-bold text-gold">4.9★</div>
+          <div class="text-white/40 text-[12px]">Rating Rata-rata</div>
+        </div>
+      </div>
+    </div>
+    <!-- Right Card -->
+    <div class="hidden lg:block relative animate-slide-in">
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div class="w-72 h-72 rounded-full border border-gold/15 animate-pulse-ring"></div>
+        <div class="absolute w-72 h-72 rounded-full border border-gold/10 animate-pulse-ring-2"></div>
+      </div>
+      <div class="relative bg-ink-muted/80 backdrop-blur border border-white/10 rounded-[26px] p-6 shadow-2xl ml-8">
+        <div class="flex items-center justify-between mb-5">
+          <span class="text-white/45 text-[11px] font-medium tracking-wider uppercase">Tim Dokter Kami</span>
+          <span class="flex items-center gap-1.5 text-green-400 text-[11px] font-bold">
+            <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse inline-block"></span>Live
+          </span>
+        </div>
+        <div class="space-y-3 mb-5">
+          <div class="flex items-center gap-3 bg-white/5 rounded-2xl p-3 cursor-pointer hover:bg-white/8 transition-colors" onclick="openKonsultasiModal(1)">
+            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=80&h=80&fit=crop&q=80" class="w-11 h-11 rounded-full object-cover border-2 border-gold/40" alt="drg Sarah" />
+            <div class="flex-1 min-w-0">
+              <div class="text-white font-semibold text-[13px] truncate">drg. Sarah Amelia</div>
+              <div class="text-white/40 text-[11px]">Ortodontis · Pagi ini</div>
+            </div>
+            <div class="w-2 h-2 rounded-full bg-green-400 animate-pulse shrink-0"></div>
+          </div>
+          <div class="flex items-center gap-3 bg-white/5 rounded-2xl p-3 cursor-pointer hover:bg-white/8 transition-colors" onclick="openKonsultasiModal(2)">
+            <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=80&h=80&fit=crop&q=80" class="w-11 h-11 rounded-full object-cover border-2 border-white/20" alt="drg Rizal" />
+            <div class="flex-1 min-w-0">
+              <div class="text-white font-semibold text-[13px] truncate">drg. Rizal Firmansyah</div>
+              <div class="text-white/40 text-[11px]">Gigi Umum · Sore ini</div>
+            </div>
+            <div class="w-2 h-2 rounded-full bg-yellow-400 shrink-0"></div>
+          </div>
+          <div class="flex items-center gap-3 bg-white/5 rounded-2xl p-3 cursor-pointer hover:bg-white/8 transition-colors" onclick="openKonsultasiModal(3)">
+            <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=80&h=80&fit=crop&q=80" class="w-11 h-11 rounded-full object-cover border-2 border-gold/40" alt="drg Anita" />
+            <div class="flex-1 min-w-0">
+              <div class="text-white font-semibold text-[13px] truncate">drg. Anita Kusumawati</div>
+              <div class="text-white/40 text-[11px]">Konservasi · Pagi ini</div>
+            </div>
+            <div class="w-2 h-2 rounded-full bg-green-400 animate-pulse shrink-0"></div>
+          </div>
+        </div>
+        <button onclick="openKonsultasiModal(null)" class="w-full bg-gold text-ink font-bold py-3 rounded-2xl text-[13px] flex items-center justify-center gap-2 hover:bg-gold-light transition-all">
+          <iconify-icon icon="solar:calendar-add-bold" class="text-[16px]"></iconify-icon>Booking Jadwal
+        </button>
+      </div>
+      <div class="absolute -left-6 top-8 bg-white rounded-2xl shadow-xl px-4 py-3 flex items-center gap-3">
+        <div class="w-9 h-9 rounded-full bg-green-100 flex items-center justify-center">
+          <iconify-icon icon="solar:shield-check-bold" class="text-green-600 text-[18px]"></iconify-icon>
+        </div>
+        <div>
+          <div class="text-ink text-[12px] font-bold">PDGI Certified</div>
+          <div class="text-smoke text-[11px]">Terverifikasi Profesional</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="absolute bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-white/30 text-[11px]">
+    <span>Scroll</span>
+    <iconify-icon icon="solar:arrow-down-linear" class="text-[16px] animate-bounce"></iconify-icon>
+  </div>
+</section>
+
+<!-- ═══════ LAYANAN ═══════ -->
+<section id="layanan" class="py-24 bg-off-white">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="text-center mb-14 space-y-3">
+      <div class="inline-flex items-center gap-2 bg-gold/20 text-gold-dark rounded-full px-4 py-1.5 text-[13px] font-bold">
+        <iconify-icon icon="solar:heart-pulse-bold"></iconify-icon>Layanan Kami
+      </div>
+      <h2 class="font-ubuntu text-4xl lg:text-5xl font-bold text-ink">Perawatan Gigi <span class="text-gold-dark">Lengkap</span></h2>
+      <p class="text-smoke max-w-xl mx-auto text-[15px] leading-relaxed">Berbagai layanan komprehensif untuk seluruh keluarga, dari pemeriksaan rutin hingga prosedur estetik modern.</p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="group bg-white rounded-3xl p-7 border border-ink/5 hover:border-gold/40 hover:shadow-xl transition-all duration-300">
+        <div class="w-14 h-14 rounded-2xl bg-gold/10 flex items-center justify-center mb-5 group-hover:bg-gold group-hover:scale-110 transition-all duration-300">
+          <iconify-icon icon="ph:tooth-bold" class="text-gold text-[24px] group-hover:text-ink transition-colors"></iconify-icon>
+        </div>
+        <h3 class="font-ubuntu text-[18px] font-bold text-ink mb-2">Pemeriksaan & Scaling</h3>
+        <p class="text-smoke text-[14px] leading-relaxed">Pemeriksaan rutin dan pembersihan karang gigi profesional untuk menjaga kesehatan rongga mulut Anda.</p>
+        <div class="mt-5 text-gold-dark font-bold text-[13px] flex items-center gap-1">Mulai Rp150.000 <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></div>
+      </div>
+      <div class="group bg-white rounded-3xl p-7 border border-ink/5 hover:border-gold/40 hover:shadow-xl transition-all duration-300">
+        <div class="w-14 h-14 rounded-2xl bg-amber-50 flex items-center justify-center mb-5 group-hover:bg-gold group-hover:scale-110 transition-all duration-300">
+          <iconify-icon icon="solar:magic-stick-bold" class="text-amber-500 text-[24px] group-hover:text-ink transition-colors"></iconify-icon>
+        </div>
+        <h3 class="font-ubuntu text-[18px] font-bold text-ink mb-2">Bleaching Gigi</h3>
+        <p class="text-smoke text-[14px] leading-relaxed">Pemutihan gigi profesional yang aman untuk mendapatkan senyum cerah dan meningkatkan kepercayaan diri.</p>
+        <div class="mt-5 text-gold-dark font-bold text-[13px] flex items-center gap-1">Mulai Rp500.000 <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></div>
+      </div>
+      <div class="group bg-white rounded-3xl p-7 border border-ink/5 hover:border-gold/40 hover:shadow-xl transition-all duration-300">
+        <div class="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center mb-5 group-hover:bg-gold group-hover:scale-110 transition-all duration-300">
+          <iconify-icon icon="hugeicons:dental-braces" class="text-blue-500 text-[24px] group-hover:text-ink transition-colors"></iconify-icon>
+        </div>
+        <h3 class="font-ubuntu text-[18px] font-bold text-ink mb-2">Kawat Gigi (Behel)</h3>
+        <p class="text-smoke text-[14px] leading-relaxed">Pemasangan kawat metal dan ceramic untuk merapikan susunan gigi bersama ortodontis berpengalaman kami.</p>
+        <div class="mt-5 text-gold-dark font-bold text-[13px] flex items-center gap-1">Mulai Rp8.000.000 <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></div>
+      </div>
+      <div class="group bg-white rounded-3xl p-7 border border-ink/5 hover:border-gold/40 hover:shadow-xl transition-all duration-300">
+        <div class="w-14 h-14 rounded-2xl bg-red-50 flex items-center justify-center mb-5 group-hover:bg-gold group-hover:scale-110 transition-all duration-300">
+          <iconify-icon icon="solar:health-bold" class="text-red-400 text-[24px] group-hover:text-ink transition-colors"></iconify-icon>
+        </div>
+        <h3 class="font-ubuntu text-[18px] font-bold text-ink mb-2">Tambal Gigi</h3>
+        <p class="text-smoke text-[14px] leading-relaxed">Penambalan gigi berlubang dengan bahan komposit berkualitas tinggi yang tahan lama dan estetik alami.</p>
+        <div class="mt-5 text-gold-dark font-bold text-[13px] flex items-center gap-1">Mulai Rp200.000 <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></div>
+      </div>
+      <div class="group bg-white rounded-3xl p-7 border border-ink/5 hover:border-gold/40 hover:shadow-xl transition-all duration-300">
+        <div class="w-14 h-14 rounded-2xl bg-purple-50 flex items-center justify-center mb-5 group-hover:bg-gold group-hover:scale-110 transition-all duration-300">
+          <iconify-icon icon="healthicons:odontology-implant" class="text-purple-500 text-[24px] group-hover:text-ink transition-colors"></iconify-icon>
+        </div>
+        <h3 class="font-ubuntu text-[18px] font-bold text-ink mb-2">Implan Gigi</h3>
+        <p class="text-smoke text-[14px] leading-relaxed">Solusi permanen untuk gigi yang hilang dengan teknologi implan terkini — nyaman, kuat, dan berumur panjang.</p>
+        <div class="mt-5 text-gold-dark font-bold text-[13px] flex items-center gap-1">Mulai Rp15.000.000 <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></div>
+      </div>
+      <div class="group bg-white rounded-3xl p-7 border border-ink/5 hover:border-gold/40 hover:shadow-xl transition-all duration-300">
+        <div class="w-14 h-14 rounded-2xl bg-green-50 flex items-center justify-center mb-5 group-hover:bg-gold group-hover:scale-110 transition-all duration-300">
+          <iconify-icon icon="solar:stars-bold" class="text-green-500 text-[24px] group-hover:text-ink transition-colors"></iconify-icon>
+        </div>
+        <h3 class="font-ubuntu text-[18px] font-bold text-ink mb-2">Veneer Porselen</h3>
+        <p class="text-smoke text-[14px] leading-relaxed">Pemasangan veneer ultra-tipis untuk menyempurnakan bentuk, warna, dan ukuran gigi secara estetik maksimal.</p>
+        <div class="mt-5 text-gold-dark font-bold text-[13px] flex items-center gap-1">Mulai Rp3.500.000 <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ DOKTER ═══════ -->
+<section id="dokter" class="py-24 bg-cream">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="text-center mb-14 space-y-3">
+      <div class="inline-flex items-center gap-2 bg-gold/20 text-gold-dark rounded-full px-4 py-1.5 text-[13px] font-bold">
+        <iconify-icon icon="solar:user-circle-bold"></iconify-icon>Tim Dokter Kami
+      </div>
+      <h2 class="font-ubuntu text-4xl lg:text-5xl font-bold text-ink">Dokter <span class="text-gold-dark">Berpengalaman</span></h2>
+      <p class="text-smoke max-w-lg mx-auto text-[15px]">Didukung dokter tersertifikasi dan berdedikasi tinggi dalam memberikan perawatan terbaik untuk Anda.</p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="doctorGrid"></div>
+  </div>
+</section>
+
+<!-- ═══════ JADWAL ═══════ -->
+<section id="jadwal" class="py-24 bg-ink">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="text-center mb-14 space-y-3">
+      <div class="inline-flex items-center gap-2 bg-gold/15 text-gold rounded-full px-4 py-1.5 text-[13px] font-bold">
+        <iconify-icon icon="solar:calendar-bold"></iconify-icon>Jam Praktek
+      </div>
+      <h2 class="font-ubuntu text-4xl lg:text-5xl font-bold text-white">Jadwal <span class="text-gold">Dokter</span></h2>
+      <p class="text-white/45 max-w-lg mx-auto text-[15px]">Cek ketersediaan dokter sebelum konsultasi untuk memastikan pelayanan optimal.</p>
+    </div>
+    <div class="grid lg:grid-cols-5 gap-6">
+      <div class="lg:col-span-3 bg-ink-soft border border-white/10 rounded-3xl overflow-hidden">
+        <div class="px-6 py-4 border-b border-white/10 flex items-center justify-between">
+          <h3 class="text-white font-semibold text-[14px]">Jadwal Mingguan</h3>
+          <span class="text-white/35 text-[12px]">Minggu Ini</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-[12px]">
+            <thead>
+              <tr class="border-b border-white/10">
+                <th class="text-left px-5 py-3 text-white/40 font-medium">Dokter</th>
+                <th class="text-center px-2 py-3 text-white/40 font-medium text-[10px]">Sen</th>
+                <th class="text-center px-2 py-3 text-white/40 font-medium text-[10px]">Sel</th>
+                <th class="text-center px-2 py-3 text-white/40 font-medium text-[10px]">Rab</th>
+                <th class="text-center px-2 py-3 text-white/40 font-medium text-[10px]">Kam</th>
+                <th class="text-center px-2 py-3 text-white/40 font-medium text-[10px]">Jum</th>
+                <th class="text-center px-2 py-3 text-white/40 font-medium text-[10px]">Sab</th>
+              </tr>
+            </thead>
+            <tbody id="scheduleTable"></tbody>
+          </table>
+        </div>
+        <div class="px-5 py-3 border-t border-white/10 flex flex-wrap gap-4 text-[10px] text-white/35">
+          <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-green-500 inline-block"></span>Pagi 08:00–12:00</span>
+          <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-gold inline-block"></span>Sore 13:00–17:00</span>
+          <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-white/12 inline-block"></span>Libur</span>
+        </div>
+      </div>
+      <div class="lg:col-span-2 space-y-4">
+        <div class="bg-gold rounded-3xl p-7">
+          <h3 class="font-ubuntu text-[21px] font-bold text-ink mb-1">Jam Operasional</h3>
+          <p class="text-ink/50 text-[12px] mb-5">Buka setiap hari kecuali hari libur nasional</p>
+          <div class="space-y-2.5">
+            <div class="flex justify-between items-center bg-ink/10 rounded-xl px-4 py-3">
+              <div class="flex items-center gap-2 text-ink font-medium text-[13px]"><iconify-icon icon="solar:sun-bold"></iconify-icon>Senin – Jumat</div>
+              <div class="text-ink font-bold text-[13px]">08:00 – 20:00</div>
+            </div>
+            <div class="flex justify-between items-center bg-ink/10 rounded-xl px-4 py-3">
+              <div class="flex items-center gap-2 text-ink font-medium text-[13px]"><iconify-icon icon="solar:sun-2-bold"></iconify-icon>Sabtu</div>
+              <div class="text-ink font-bold text-[13px]">08:00 – 16:00</div>
+            </div>
+            <div class="flex justify-between items-center bg-ink/10 rounded-xl px-4 py-3">
+              <div class="flex items-center gap-2 text-ink font-medium text-[13px]"><iconify-icon icon="solar:moon-bold"></iconify-icon>Minggu</div>
+              <div class="text-ink font-bold text-[13px]">09:00 – 14:00</div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-ink-soft border border-white/10 rounded-3xl p-7">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center">
+              <iconify-icon icon="solar:phone-bold" class="text-green-400 text-[18px]"></iconify-icon>
+            </div>
+            <div>
+              <div class="text-white font-semibold text-[13px]">Emergency 24 Jam</div>
+              <div class="text-white/40 text-[11px]">Hubungi hotline darurat kami</div>
+            </div>
+          </div>
+          <a href="tel:+62811234567" class="flex items-center justify-center gap-2 w-full bg-green-500/10 border border-green-500/20 text-green-400 rounded-2xl py-3 font-medium text-[13px] hover:bg-green-500/20 transition-colors">
+            <iconify-icon icon="solar:phone-calling-bold"></iconify-icon>0811-234-567
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ LOKASI ═══════ -->
+<section id="lokasi" class="py-24 bg-off-white">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="text-center mb-14 space-y-3">
+      <div class="inline-flex items-center gap-2 bg-gold/20 text-gold-dark rounded-full px-4 py-1.5 text-[13px] font-bold">
+        <iconify-icon icon="solar:map-point-bold"></iconify-icon>Temukan Kami
+      </div>
+      <h2 class="font-ubuntu text-4xl lg:text-5xl font-bold text-ink">Lokasi <span class="text-gold-dark">Klinik</span></h2>
+      <p class="text-smoke max-w-xl mx-auto text-[15px]">Mudah dijangkau dari berbagai penjuru kota dengan akses parkir luas dan nyaman.</p>
+    </div>
+    <div class="grid lg:grid-cols-2 gap-10 items-start">
+      <!-- Leaflet Map -->
+      <div class="rounded-3xl overflow-hidden border-2 border-gold/20 shadow-xl">
+        <div id="leafletMap" class="w-full h-80"></div>
+        <div class="bg-white px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div>
+            <div class="font-bold text-ink text-[14px]">Arcade Dental – Kemang</div>
+            <div class="text-smoke text-[12px]">Jl. Kemang Raya No. 88, Jakarta Selatan</div>
+          </div>
+          <a href="https://maps.google.com/?q=-6.2607,106.8147" target="_blank" rel="noopener noreferrer"
+             class="flex items-center gap-1.5 bg-gold text-ink font-bold text-[12px] px-4 py-2.5 rounded-xl hover:bg-gold-light transition-all hover:scale-105 active:scale-95 shrink-0">
+            <iconify-icon icon="solar:map-point-bold"></iconify-icon>Buka Maps
+            <iconify-icon icon="solar:arrow-right-up-linear"></iconify-icon>
+          </a>
+        </div>
+      </div>
+      <!-- Info Cards -->
+      <div class="space-y-4">
+        <div class="bg-white rounded-3xl p-5 border border-ink/5 flex items-start gap-4 hover:shadow-md transition-shadow">
+          <div class="w-12 h-12 rounded-2xl bg-gold/10 flex items-center justify-center shrink-0">
+            <iconify-icon icon="solar:map-point-bold" class="text-gold text-[22px]"></iconify-icon>
+          </div>
+          <div>
+            <h4 class="font-bold text-ink text-[14px] mb-1">Alamat Klinik</h4>
+            <p class="text-smoke text-[13px] leading-relaxed">Jl. Kemang Raya No. 88, RT 01/RW 03,<br/>Kemang, Pancoran, Jakarta Selatan 12730</p>
+          </div>
+        </div>
+        <div class="bg-white rounded-3xl p-5 border border-ink/5 flex items-start gap-4 hover:shadow-md transition-shadow">
+          <div class="w-12 h-12 rounded-2xl bg-gold/10 flex items-center justify-center shrink-0">
+            <iconify-icon icon="solar:phone-bold" class="text-gold text-[22px]"></iconify-icon>
+          </div>
+          <div>
+            <h4 class="font-bold text-ink text-[14px] mb-1">Telepon & Chat</h4>
+            <p class="text-smoke text-[13px]">
+              <a href="tel:+62211234567" class="hover:text-gold transition-colors">(021) 123-4567</a>
+              <span class="mx-2 text-ink/15">·</span>
+              <button onclick="toggleChat()" class="hover:text-gold transition-colors">Chat Mia (Online)</button>
+            </p>
+          </div>
+        </div>
+        <div class="bg-white rounded-3xl p-5 border border-ink/5 flex items-start gap-4 hover:shadow-md transition-shadow">
+          <div class="w-12 h-12 rounded-2xl bg-gold/10 flex items-center justify-center shrink-0">
+            <iconify-icon icon="solar:letter-bold" class="text-gold text-[22px]"></iconify-icon>
+          </div>
+          <div>
+            <h4 class="font-bold text-ink text-[14px] mb-1">Email</h4>
+            <a href="mailto:halo@arcadedental.id" class="text-smoke text-[13px] hover:text-gold transition-colors">halo@arcadedental.id</a>
+          </div>
+        </div>
+        <div class="bg-white rounded-3xl p-5 border border-ink/5 flex items-start gap-4 hover:shadow-md transition-shadow">
+          <div class="w-12 h-12 rounded-2xl bg-gold/10 flex items-center justify-center shrink-0">
+            <iconify-icon icon="solar:bus-bold" class="text-gold text-[22px]"></iconify-icon>
+          </div>
+          <div>
+            <h4 class="font-bold text-ink text-[14px] mb-1">Akses Transportasi</h4>
+            <p class="text-smoke text-[13px] leading-relaxed">5 menit dari Halte Kemang Timur · Parkir luas · Ojek online mudah</p>
+          </div>
+        </div>
+        <a href="https://maps.google.com/?q=-6.2607,106.8147" target="_blank" rel="noopener noreferrer"
+           class="flex items-center justify-center gap-2 w-full bg-ink text-white font-bold py-4 rounded-2xl hover:bg-gold hover:text-ink transition-all duration-300 text-[14px]">
+          <iconify-icon icon="solar:route-bold" class="text-[18px]"></iconify-icon>Dapatkan Petunjuk Arah
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ ULASAN ═══════ -->
+<section id="ulasan" class="py-24 bg-cream">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-14">
+      <div class="space-y-3">
+        <div class="inline-flex items-center gap-2 bg-gold/20 text-gold-dark rounded-full px-4 py-1.5 text-[13px] font-bold">
+          <iconify-icon icon="solar:star-bold"></iconify-icon>Rating & Ulasan
+        </div>
+        <h2 class="font-ubuntu text-4xl lg:text-5xl font-bold text-ink">Kata Mereka <span class="text-gold-dark">Tentang Kami</span></h2>
+      </div>
+      <div class="flex items-center gap-6 bg-ink rounded-3xl px-8 py-5 shrink-0">
+        <div class="text-center">
+          <div class="font-ubuntu text-[46px] font-bold text-gold leading-none">4.9</div>
+          <div class="text-gold text-[18px] mt-1.5">★★★★★</div>
+          <div class="text-white/30 text-[11px] mt-1">dari 5.0</div>
+        </div>
+        <div class="w-px h-12 bg-white/10"></div>
+        <div class="space-y-1.5" id="ratingBars"></div>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="reviewGrid"></div>
+    <div class="mt-10 bg-ink rounded-3xl p-8 text-center space-y-4">
+      <iconify-icon icon="solar:star-shine-bold" class="text-gold text-[40px]"></iconify-icon>
+      <h3 class="font-ubuntu text-[22px] font-bold text-white">Bagaimana pengalaman Anda?</h3>
+      <p class="text-white/40 text-[13px] max-w-md mx-auto">Selesai konsultasi? Bantu pasien lain dengan berbagi pengalaman di Arcade Dental.</p>
+      <button onclick="openRatingModal()" class="bg-gold text-ink font-bold px-8 py-3 rounded-full hover:bg-gold-light transition-all hover:scale-105 active:scale-95 text-[14px]">
+        Tulis Ulasan Sekarang
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ CTA ═══════ -->
+<section class="py-20 bg-gold">
+  <div class="max-w-4xl mx-auto px-6 text-center space-y-6">
+    <h2 class="font-ubuntu text-4xl lg:text-5xl font-bold text-ink">Siap Untuk Senyum<br/>Terbaik Anda?</h2>
+    <p class="text-ink/55 text-[16px]">Jadwalkan konsultasi sekarang dan rasakan perbedaan perawatan gigi profesional bersama tim Arcade Dental.</p>
+    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+      <button onclick="openKonsultasiModal(null)" class="flex items-center justify-center gap-2 bg-ink text-white font-bold px-8 py-4 rounded-full hover:scale-105 active:scale-95 transition-all text-[15px]">
+        <iconify-icon icon="solar:calendar-bold" class="text-gold text-[18px]"></iconify-icon>Buat Janji Sekarang
+      </button>
+      <button onclick="toggleChat()" class="flex items-center justify-center gap-2 border-2 border-ink/30 text-ink font-bold px-8 py-4 rounded-full hover:bg-ink/10 transition-all text-[15px]">
+        <iconify-icon icon="solar:chat-round-bold" class="text-[18px]"></iconify-icon>Chat dengan Mia
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer class="bg-ink py-16">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+      <div class="md:col-span-2 space-y-4">
+        <div class="flex items-center gap-2">
+          <iconify-icon icon="solar:tooth-bold" class="text-gold text-[28px]"></iconify-icon>
+          <span class="font-ubuntu text-[21px] font-bold"><span class="text-gold">Arcade</span><span class="text-white"> Dental</span></span>
+        </div>
+        <p class="text-white/35 text-[13px] leading-relaxed max-w-xs">Klinik gigi terpercaya dengan teknologi modern dan sentuhan profesional untuk senyum terbaik Anda.</p>
+        <div class="flex gap-3">
+          <a href="https://www.instagram.com/arcade_dental/" target="_blank" class="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/35 hover:text-gold hover:border-gold/30 transition-all">
+            <iconify-icon icon="skill-icons:instagram"></iconify-icon>
+          </a>
+          <a href="https://www.facebook.com/profile.php?id=61577131325136" target="_blank" class="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/35 hover:text-gold hover:border-gold/30 transition-all">
+            <iconify-icon icon="devicon:facebook"></iconify-icon>
+          </a>
+          <a href="https://www.tiktok.com/@arcade.dental" target="_blank" class="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/35 hover:text-gold hover:border-gold/30 transition-all">
+            <iconify-icon icon="logos:tiktok-icon"></iconify-icon>
+          </a>
+        </div>
+      </div>
+      <div class="space-y-4">
+        <h4 class="text-white font-semibold text-[13px]">Layanan</h4>
+        <ul class="space-y-2 text-white/35 text-[13px]">
+          <li><a href="#layanan" class="hover:text-gold transition-colors">Pemeriksaan & Scaling</a></li>
+          <li><a href="#layanan" class="hover:text-gold transition-colors">Bleaching Gigi</a></li>
+          <li><a href="#layanan" class="hover:text-gold transition-colors">Kawat Gigi</a></li>
+          <li><a href="#layanan" class="hover:text-gold transition-colors">Tambal Gigi</a></li>
+          <li><a href="#layanan" class="hover:text-gold transition-colors">Implan Gigi</a></li>
+        </ul>
+      </div>
+      <div class="space-y-4">
+        <h4 class="text-white font-semibold text-[13px]">Kontak</h4>
+        <ul class="space-y-3 text-white/35 text-[13px]">
+          <li class="flex items-start gap-2"><iconify-icon icon="solar:map-point-linear" class="text-gold shrink-0 mt-0.5"></iconify-icon>Jl. Kemang Raya No. 88, Jakarta Selatan</li>
+          <li class="flex items-center gap-2"><iconify-icon icon="solar:phone-linear" class="text-gold"></iconify-icon>(021) 123-4567</li>
+          <li class="flex items-center gap-2"><iconify-icon icon="solar:letter-linear" class="text-gold"></iconify-icon>halo@arcadedental.id</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-white/25 text-[12px]">
+      <span>© 2026 Arcade Dental. Seluruh hak dilindungi.</span>
+      <span class="flex items-center gap-1">Dibuat dengan <iconify-icon icon="solar:heart-bold" class="text-gold"></iconify-icon> untuk senyum lebih indah</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════ MODAL KONSULTASI ═══════ -->
+<div id="konsultasiModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
+  <div class="absolute inset-0 bg-black/65 backdrop-blur-sm" onclick="closeKonsultasiModal()"></div>
+  <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto animate-fade-up">
+    <div class="sticky top-0 bg-white rounded-t-3xl border-b border-ink/5 px-7 py-5 flex items-center justify-between z-10">
+      <div>
+        <h3 class="font-ubuntu text-[21px] font-bold text-ink">Buat Janji Konsultasi</h3>
+        <p class="text-smoke text-[12px] mt-0.5">Isi form berikut untuk memesan jadwal</p>
+      </div>
+      <button onclick="closeKonsultasiModal()" class="w-9 h-9 rounded-full bg-ink/5 flex items-center justify-center hover:bg-ink/10 transition-colors">
+        <iconify-icon icon="ic:baseline-close" class="text-ink text-[16px]"></iconify-icon>
+      </button>
+    </div>
+    <div class="px-7 py-6 space-y-5" id="konsultasiForm">
+      <div id="selectedDoctorBadge" class="hidden items-center gap-3 bg-gold/10 border border-gold/25 rounded-2xl p-4">
+        <img id="selectedDoctorImg" src="" class="w-11 h-11 rounded-full object-cover border-2 border-gold/30 shrink-0" alt="" />
+        <div>
+          <div class="text-ink font-bold text-[14px]" id="selectedDoctorName"></div>
+          <div class="text-smoke text-[12px]" id="selectedDoctorSpec"></div>
+        </div>
+        <button onclick="clearSelectedDoctor()" class="ml-auto text-smoke hover:text-ink transition-colors">
+          <iconify-icon icon="solar:close-circle-linear" class="text-[18px]"></iconify-icon>
+        </button>
+      </div>
+      <div id="doctorSelectGroup">
+        <label class="block text-ink font-semibold text-[13px] mb-2">Pilih Dokter</label>
+        <select id="formDokter" class="w-full border border-ink/15 rounded-2xl px-4 py-3 text-ink text-[14px] focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all bg-white">
+          <option value="">-- Pilih Dokter --</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-ink font-semibold text-[13px] mb-2">Nama Lengkap</label>
+        <input id="formNama" type="text" placeholder="Masukkan nama lengkap" class="w-full border border-ink/15 rounded-2xl px-4 py-3 text-ink text-[14px] placeholder-smoke/40 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all" />
+      </div>
+      <div>
+        <label class="block text-ink font-semibold text-[13px] mb-2">Nomor WhatsApp</label>
+        <div class="flex">
+          <span class="flex items-center px-4 border border-r-0 border-ink/15 rounded-l-2xl bg-ink/5 text-smoke text-[13px]">+62</span>
+          <input id="formPhone" type="tel" placeholder="8xx-xxxx-xxxx" class="flex-1 border border-ink/15 rounded-r-2xl px-4 py-3 text-ink text-[14px] placeholder-smoke/40 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all" />
+        </div>
+      </div>
+      <div>
+        <label class="block text-ink font-semibold text-[13px] mb-2">Tanggal Kunjungan</label>
+        <input id="formTanggal" type="date" class="w-full border border-ink/15 rounded-2xl px-4 py-3 text-ink text-[14px] focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all" />
+      </div>
+      <div>
+        <label class="block text-ink font-semibold text-[13px] mb-2">Pilih Sesi</label>
+        <div class="grid grid-cols-2 gap-3">
+          <button type="button" onclick="selectSession(this,'08:00')" class="sesi-btn border border-ink/15 rounded-2xl px-4 py-3 text-left hover:border-gold/50 transition-all">
+            <div class="font-bold text-ink text-[14px]">Sesi Pagi</div>
+            <div class="text-smoke text-[12px]">08:00 – 12:00</div>
+          </button>
+          <button type="button" onclick="selectSession(this,'13:00')" class="sesi-btn border border-ink/15 rounded-2xl px-4 py-3 text-left hover:border-gold/50 transition-all">
+            <div class="font-bold text-ink text-[14px]">Sesi Sore</div>
+            <div class="text-smoke text-[12px]">13:00 – 17:00</div>
+          </button>
+        </div>
+      </div>
+      <div>
+        <label class="block text-ink font-semibold text-[13px] mb-2">Keluhan <span class="text-smoke font-normal">(opsional)</span></label>
+        <textarea id="formKeluhan" rows="3" placeholder="Ceritakan keluhan Anda..." class="w-full border border-ink/15 rounded-2xl px-4 py-3 text-ink text-[14px] placeholder-smoke/40 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all resize-none"></textarea>
+      </div>
+      <div id="formError" class="hidden bg-red-50 border border-red-200 text-red-600 text-[13px] rounded-2xl px-4 py-3"></div>
+    </div>
+    <div id="konsultasiSuccess" class="hidden px-7 py-14 text-center space-y-4">
+      <div class="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mx-auto">
+        <iconify-icon icon="solar:check-circle-bold" class="text-green-500 text-[40px]"></iconify-icon>
+      </div>
+      <h3 class="font-ubuntu text-[22px] font-bold text-ink">Janji Berhasil Dibuat!</h3>
+      <p class="text-smoke text-[14px]">Kami akan menghubungi Anda untuk konfirmasi jadwal.</p>
+      <div id="successDetail" class="bg-ink/5 rounded-2xl p-4 text-[13px] text-left"></div>
+      <button onclick="closeKonsultasiModal()" class="bg-gold text-ink font-bold px-8 py-3 rounded-full hover:bg-gold-light transition-all text-[14px]">Tutup</button>
+    </div>
+    <div id="konsultasiFooter" class="px-7 py-5 border-t border-ink/5">
+      <button onclick="submitKonsultasi()" class="w-full bg-gold text-ink font-bold py-4 rounded-2xl hover:bg-gold-light transition-all hover:scale-[1.02] active:scale-[0.98] text-[15px] flex items-center justify-center gap-2">
+        <iconify-icon icon="solar:calendar-add-bold" class="text-[18px]"></iconify-icon>Konfirmasi Jadwal
+      </button>
+      <p class="text-smoke/40 text-[11px] text-center mt-3">Dengan melanjutkan, Anda menyetujui syarat & ketentuan Arcade Dental.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ MODAL RATING ═══════ -->
+<div id="ratingModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
+  <div class="absolute inset-0 bg-black/65 backdrop-blur-sm" onclick="closeRatingModal()"></div>
+  <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-md animate-fade-up">
+    <div class="px-7 py-5 border-b border-ink/5 flex items-center justify-between">
+      <div>
+        <h3 class="font-ubuntu text-[21px] font-bold text-ink">Tulis Ulasan</h3>
+        <p class="text-smoke text-[12px] mt-0.5">Bagikan pengalaman Anda</p>
+      </div>
+      <button onclick="closeRatingModal()" class="w-9 h-9 rounded-full bg-ink/5 flex items-center justify-center hover:bg-ink/10 transition-colors">
+        <iconify-icon icon="ic:baseline-close" class="text-ink text-[16px]"></iconify-icon>
+      </button>
+    </div>
+    <div id="ratingFormContent" class="px-7 py-6 space-y-5">
+      <div class="text-center">
+        <p class="text-ink font-semibold text-[14px] mb-4">Seberapa puas Anda dengan layanan kami?</p>
+        <div class="flex justify-center gap-2" id="starRating">
+          <button type="button" onclick="setRating(1)" class="star-btn text-[38px] text-ink/15 hover:text-gold transition-colors">★</button>
+          <button type="button" onclick="setRating(2)" class="star-btn text-[38px] text-ink/15 hover:text-gold transition-colors">★</button>
+          <button type="button" onclick="setRating(3)" class="star-btn text-[38px] text-ink/15 hover:text-gold transition-colors">★</button>
+          <button type="button" onclick="setRating(4)" class="star-btn text-[38px] text-ink/15 hover:text-gold transition-colors">★</button>
+          <button type="button" onclick="setRating(5)" class="star-btn text-[38px] text-ink/15 hover:text-gold transition-colors">★</button>
+        </div>
+        <p id="ratingLabel" class="text-smoke text-[13px] mt-2">Pilih bintang di atas</p>
+      </div>
+      <div>
+        <label class="block text-ink font-semibold text-[13px] mb-2">Nama Anda</label>
+        <input id="ratingNama" type="text" placeholder="Nama Anda" class="w-full border border-ink/15 rounded-2xl px-4 py-3 text-ink text-[14px] placeholder-smoke/40 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all" />
+      </div>
+      <div>
+        <label class="block text-ink font-semibold text-[13px] mb-2">Ulasan Anda</label>
+        <textarea id="ratingKomentar" rows="4" placeholder="Ceritakan pengalaman Anda di Arcade Dental..." class="w-full border border-ink/15 rounded-2xl px-4 py-3 text-ink text-[14px] placeholder-smoke/40 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all resize-none"></textarea>
+      </div>
+      <div id="ratingError" class="hidden bg-red-50 border border-red-200 text-red-600 text-[13px] rounded-2xl px-4 py-3"></div>
+      <button onclick="submitRating()" class="w-full bg-gold text-ink font-bold py-4 rounded-2xl hover:bg-gold-light transition-all hover:scale-[1.02] active:scale-[0.98] text-[15px]">Kirim Ulasan</button>
+    </div>
+    <div id="ratingSuccess" class="hidden px-7 py-12 text-center space-y-4">
+      <div class="w-20 h-20 rounded-full bg-gold/10 flex items-center justify-center mx-auto">
+        <iconify-icon icon="solar:star-shine-bold" class="text-gold text-[40px]"></iconify-icon>
+      </div>
+      <h3 class="font-ubuntu text-[22px] font-bold text-ink">Terima Kasih!</h3>
+      <p class="text-smoke text-[14px]">Ulasan Anda sangat berarti. Terus jaga kesehatan gigi Anda!</p>
+      <button onclick="closeRatingModal()" class="bg-gold text-ink font-bold px-8 py-3 rounded-full hover:bg-gold-light transition-all text-[14px]">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ CHAT WIDGET ═══════ -->
+<button id="chatBtn" onclick="toggleChat()" class="fixed bottom-6 right-6 z-40 w-14 h-14 bg-gold rounded-full shadow-xl shadow-gold/25 flex items-center justify-center hover:bg-gold-light hover:scale-110 active:scale-95 transition-all duration-200">
+  <iconify-icon id="chatBtnIcon" icon="solar:chat-round-dots-bold" class="text-ink text-[24px]"></iconify-icon>
+  <span id="chatNotifDot" class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center text-white text-[9px] font-bold">1</span>
+</button>
+
+<div id="chatPanel" class="fixed bottom-24 right-6 z-40 w-80 sm:w-96 rounded-3xl shadow-2xl border border-ink/8 hidden flex-col overflow-hidden animate-chat-up">
+  <!-- Header -->
+  <div class="bg-ink px-5 py-4 flex items-center gap-3 shrink-0">
+    <div class="relative shrink-0">
+      <div class="w-10 h-10 rounded-full bg-gold flex items-center justify-center">
+        <iconify-icon icon="solar:tooth-bold" class="text-ink text-[18px]"></iconify-icon>
+      </div>
+      <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-ink"></span>
+    </div>
+    <div class="flex-1 min-w-0">
+      <div class="text-white font-bold text-[13px]">Mia · Asisten Arcade Dental</div>
+      <div class="text-green-400 text-[11px] font-medium">● Online sekarang</div>
+    </div>
+    <button onclick="toggleChat()" class="text-white/40 hover:text-white transition-colors shrink-0">
+      <iconify-icon icon="ic:baseline-close" class="text-[18px]"></iconify-icon>
+    </button>
+  </div>
+  <!-- Messages -->
+  <div id="chatMessages" class="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-[#F8F8F8]" style="max-height:300px;min-height:160px"></div>
+  <!-- Typing -->
+  <div id="typingIndicator" class="hidden px-4 py-2 bg-[#F8F8F8] shrink-0">
+    <div class="inline-flex items-center gap-1.5 bg-white rounded-2xl rounded-bl-sm px-4 py-2.5 shadow-sm">
+      <span class="w-2 h-2 rounded-full bg-smoke/50 animate-typing-1 inline-block"></span>
+      <span class="w-2 h-2 rounded-full bg-smoke/50 animate-typing-2 inline-block"></span>
+      <span class="w-2 h-2 rounded-full bg-smoke/50 animate-typing-3 inline-block"></span>
+    </div>
+  </div>
+  <!-- Quick Replies -->
+  <div id="quickReplies" class="px-4 py-3 flex flex-wrap gap-2 bg-[#F8F8F8] border-t border-ink/5 shrink-0">
+    <button onclick="sendQuick('Info jadwal dokter')" class="text-[11px] bg-white border border-ink/10 text-ink/60 px-3 py-1.5 rounded-full hover:border-gold/50 hover:text-ink transition-all font-medium">Info jadwal</button>
+    <button onclick="sendQuick('Harga layanan')" class="text-[11px] bg-white border border-ink/10 text-ink/60 px-3 py-1.5 rounded-full hover:border-gold/50 hover:text-ink transition-all font-medium">Harga layanan</button>
+    <button onclick="sendQuick('Lokasi klinik')" class="text-[11px] bg-white border border-ink/10 text-ink/60 px-3 py-1.5 rounded-full hover:border-gold/50 hover:text-ink transition-all font-medium">Lokasi klinik</button>
+    <button onclick="sendQuick('Buat janji')" class="text-[11px] bg-white border border-ink/10 text-ink/60 px-3 py-1.5 rounded-full hover:border-gold/50 hover:text-ink transition-all font-medium">Buat janji</button>
+  </div>
+  <!-- Input -->
+  <div class="px-4 py-3 bg-white border-t border-ink/5 flex gap-2 items-center shrink-0">
+    <input id="chatInput" type="text" placeholder="Ketik pesan..." onkeypress="handleChatKey(event)"
+           class="flex-1 bg-[#F5F5F5] rounded-full px-4 py-2.5 text-[13px] text-ink placeholder-smoke/50 focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all" />
+    <button onclick="sendChatMessage()" class="w-9 h-9 bg-gold rounded-full flex items-center justify-center hover:bg-gold-light transition-all hover:scale-105 active:scale-95 shrink-0">
+      <iconify-icon icon="solar:arrow-right-bold" class="text-ink text-[14px]"></iconify-icon>
+    </button>
+  </div>
+</div>
+
+<!-- ═══════ JAVASCRIPT ═══════ -->
+<script>
+  // ── Data ─────────────────────────────────────────────────────────────────
+  const doctors = [
+    { id:1, name:'drg. Sarah Amelia, Sp.Ort', specialty:'Ortodontis', exp:'12 Tahun Pengalaman',
+      bio:'Spesialis kawat gigi & maloklusi. Alumni FKG UI dengan sertifikasi internasional dari Jepang. Ahli menangani kasus behel metal, ceramic, hingga clear aligner.',
+      sessions:['Pagi','Sore','Pagi','–','Sore','Pagi','–'],
+      rating:4.9, reviews:320, available:true,
+      photo:'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=480&fit=crop&q=80' },
+    { id:2, name:'drg. Rizal Firmansyah', specialty:'Dokter Gigi Umum', exp:'8 Tahun Pengalaman',
+      bio:'Ahli tambal gigi, scaling, pencabutan, dan gigi tiruan. Dikenal ramah dan sangat sabar dalam menangani pasien anak maupun dewasa.',
+      sessions:['Sore','Sore','–','Pagi','Sore','Pagi','Pagi'],
+      rating:4.8, reviews:215, available:false,
+      photo:'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=480&fit=crop&q=80' },
+    { id:3, name:'drg. Anita Kusumawati, Sp.KG', specialty:'Konservasi Gigi', exp:'15 Tahun Pengalaman',
+      bio:'Spesialis perawatan saluran akar (RCT) dan restorasi estetik. Pengalaman luas menangani kasus gigi sensitif dan endodontik kompleks di Jakarta.',
+      sessions:['–','Pagi','Sore','Pagi','–','Pagi','–'],
+      rating:5.0, reviews:180, available:true,
+      photo:'https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&h=480&fit=crop&q=80' },
+  ];
+
+  const reviews = [
+    { name:'Dewi Rahayu', rating:5, date:'2 minggu lalu', comment:'Pelayanan sangat ramah dan profesional! drg. Sarah menjelaskan semuanya detail. Kliniknya bersih, modern, dan nyaman sekali.', doctor:'drg. Sarah Amelia' },
+    { name:'Budi Santoso', rating:5, date:'1 bulan lalu', comment:'Scaling pertama dan terasa nyaman banget. drg. Rizal sangat telaten, tidak terasa sakit sama sekali. Definitely recommended!', doctor:'drg. Rizal Firmansyah' },
+    { name:'Cantika Putri', rating:5, date:'3 minggu lalu', comment:'Veneer sudah selesai dan hasilnya luar biasa! Senyum jadi jauh lebih percaya diri. Terima kasih tim Arcade Dental!', doctor:'drg. Anita Kusumawati' },
+    { name:'Hendra Wijaya', rating:4, date:'5 minggu lalu', comment:'Pasang behel 6 bulan. Perkembangan sangat bagus, dokternya on-time dan informatif. Tempatnya strategis dan mudah parkir.', doctor:'drg. Sarah Amelia' },
+    { name:'Siti Nurfatimah', rating:5, date:'2 bulan lalu', comment:'Anak saya 8 tahun awalnya takut, tapi drg. Rizal sangat sabar. Akhirnya si kecil mau membuka mulutnya dengan senang!', doctor:'drg. Rizal Firmansyah' },
+    { name:'Dimas Aditya', rating:5, date:'1 bulan lalu', comment:'Perawatan saluran akar yang saya khawatirkan ternyata tidak sesakit dugaan. drg. Anita sangat profesional dan menenangkan.', doctor:'drg. Anita Kusumawati' },
+  ];
+
+  const chatAnswers = {
+    'info jadwal':'Jadwal dokter kami:\n\n📅 drg. Sarah (Ortodontis)\nSenin, Selasa, Rabu, Jumat, Sabtu\n\n📅 drg. Rizal (Gigi Umum)\nSenin, Selasa, Kamis, Jumat, Sabtu, Minggu\n\n📅 drg. Anita (Konservasi)\nSelasa, Rabu, Kamis, Sabtu\n\nMau langsung buat janji? 😊',
+    'harga':'Estimasi harga layanan kami:\n\n🦷 Scaling — Rp150.000\n✨ Bleaching — Rp500.000\n🔧 Tambal gigi — Rp200.000\n📐 Kawat gigi — Rp8.000.000\n⭐ Veneer — Rp3.500.000\n🦴 Implan — Rp15.000.000\n\nHarga final ditentukan setelah pemeriksaan langsung.',
+    'lokasi':'📍 Alamat kami:\n\nJl. Kemang Raya No. 88\nKemang, Jakarta Selatan 12730\n\n🚌 5 mnt dari Halte Kemang Timur\n🚗 Parkir luas tersedia\n🛵 Mudah dijangkau ojek online\n\nJam buka: Senin–Jumat 08.00–20.00\nSabtu 08.00–16.00, Minggu 09.00–14.00',
+    'buat janji':'Tentu! Klik tombol di bawah untuk memilih dokter dan jadwal yang Anda inginkan 🗓️',
+  };
+
+  let selectedRating = 0, selectedSession = '', chatReady = false;
+  const chatLog = [{ from:'mia', text:'Halo! Selamat datang di Arcade Dental 🦷\nSaya Mia, asisten virtual Anda. Ada yang bisa saya bantu hari ini?' }];
+
+  // ── Navbar ─────────────────────────────────────────────────────────────────
+  const hero = document.getElementById('hero');
+  window.addEventListener('scroll', () => {
+    const past = window.scrollY > (hero.offsetTop + hero.offsetHeight - 80);
+    const nav = document.getElementById('navbar');
+    nav.classList.toggle('bg-white', past);
+    nav.classList.toggle('shadow-md', past);
+    nav.classList.toggle('shadow-black/5', past);
+    nav.classList.toggle('bg-transparent', !past);
+
+    const navLinks = document.getElementById('navLinks');
+    navLinks.classList.toggle('text-white/80', !past);
+    navLinks.classList.toggle('text-ink/65', past);
+
+    const navPhone = document.getElementById('navPhone');
+    navPhone.classList.toggle('text-white/70', !past);
+    navPhone.classList.toggle('text-ink/60', past);
+
+    const logoDental = document.getElementById('logoDental');
+    logoDental.classList.toggle('text-white', !past);
+    logoDental.classList.toggle('text-ink', past);
+
+    const menuBtn = document.getElementById('menuBtn');
+    menuBtn.classList.toggle('text-white', !past);
+    menuBtn.classList.toggle('text-ink', past);
+  });
+
+  function toggleMobileMenu() { document.getElementById('mobileMenu').classList.toggle('hidden'); }
+
+  // ── Render Doctors ────────────────────────────────────────────────────────
+  function renderDoctors() {
+    document.getElementById('doctorGrid').innerHTML = doctors.map(d => `
+      <div class="group bg-white rounded-3xl border border-ink/5 overflow-hidden hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300">
+        <div class="relative h-60 overflow-hidden">
+          <img src="${d.photo}" alt="${d.name}" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" loading="lazy"
+               onerror="this.parentElement.innerHTML='<div class=\'w-full h-full bg-gold/10 flex items-center justify-center\'><iconify-icon icon=\'solar:user-bold\' class=\'text-ink/25 text-6xl\'></iconify-icon></div>'" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+          <div class="absolute top-3 right-3">
+            <span class="flex items-center gap-1.5 text-[11px] font-bold px-3 py-1 rounded-full backdrop-blur-sm ${d.available ? 'bg-green-500 text-white' : 'bg-black/35 text-white/60'}">
+              <span class="w-1.5 h-1.5 rounded-full ${d.available ? 'bg-white animate-pulse' : 'bg-white/40'} inline-block"></span>
+              ${d.available ? 'Tersedia' : 'Tidak Tersedia'}
+            </span>
+          </div>
+        </div>
+        <div class="p-6 space-y-3">
+          <div>
+            <h3 class="font-ubuntu text-[17px] font-bold text-ink">${d.name}</h3>
+            <div class="flex items-center gap-2 mt-1.5">
+              <span class="text-[11px] font-bold bg-gold/15 text-gold-dark rounded-full px-3 py-0.5">${d.specialty}</span>
+              <span class="text-smoke text-[11px]">${d.exp}</span>
+            </div>
+          </div>
+          <p class="text-smoke text-[13px] leading-relaxed line-clamp-2">${d.bio}</p>
+          <div class="flex items-center gap-2 py-1 border-t border-ink/5">
+            <span class="text-gold text-[14px]">★</span>
+            <span class="text-ink font-bold text-[13px]">${d.rating}</span>
+            <span class="text-smoke text-[12px]">(${d.reviews} ulasan)</span>
+          </div>
+          <button onclick="openKonsultasiModal(${d.id})" class="w-full bg-ink text-white font-bold py-3 rounded-2xl text-[13px] flex items-center justify-center gap-2 hover:bg-gold hover:text-ink transition-all duration-200">
+            <iconify-icon icon="solar:calendar-add-bold" class="text-[15px]"></iconify-icon>Buat Janji dengan Dokter Ini
+          </button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // ── Render Schedule ──────────────────────────────────────────────────────
+  function renderSchedule() {
+    document.getElementById('scheduleTable').innerHTML = doctors.map(d => `
+      <tr class="border-b border-white/5 hover:bg-white/[0.03] transition-colors">
+        <td class="px-5 py-4 min-w-[130px]">
+          <div class="text-white font-semibold text-[12px]">${d.name.split(',')[0].replace('drg. ','')}</div>
+          <div class="text-white/35 text-[10px] mt-0.5">${d.specialty}</div>
+        </td>
+        ${d.sessions.map(s => `<td class="text-center px-2 py-4">
+          ${s==='–' ? `<span class="w-4 h-4 rounded-full bg-white/8 inline-flex items-center justify-center"><iconify-icon icon="solar:close-linear" class="text-white/20 text-[9px]"></iconify-icon></span>`
+           : s==='Pagi' ? `<span class="w-4 h-4 rounded-full bg-green-500 inline-block" title="Pagi"></span>`
+           : `<span class="w-4 h-4 rounded-full bg-gold inline-block" title="Sore"></span>`}
+        </td>`).join('')}
+      </tr>
+    `).join('');
+  }
+
+  // ── Render Reviews ──────────────────────────────────────────────────────
+  function renderReviews() {
+    document.getElementById('reviewGrid').innerHTML = reviews.map(r => `
+      <div class="bg-off-white rounded-3xl p-6 border border-ink/5 hover:shadow-md transition-all space-y-4">
+        <div class="flex items-start justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-gold flex items-center justify-center font-bold text-ink text-[14px] shrink-0">${r.name[0]}</div>
+            <div><div class="font-bold text-ink text-[13px]">${r.name}</div><div class="text-smoke text-[11px]">${r.date}</div></div>
+          </div>
+          <div class="text-gold text-[14px] shrink-0">${'★'.repeat(r.rating)}<span class="text-ink/10">${'★'.repeat(5-r.rating)}</span></div>
+        </div>
+        <p class="text-smoke text-[13px] leading-relaxed">"${r.comment}"</p>
+        <div class="flex items-center gap-2 pt-1 border-t border-ink/5">
+          <iconify-icon icon="solar:user-circle-bold" class="text-gold text-[12px]"></iconify-icon>
+          <span class="text-smoke text-[11px]">${r.doctor}</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderRatingBars() {
+    document.getElementById('ratingBars').innerHTML = [[5,85],[4,10],[3,3],[2,1],[1,1]].map(([s,p]) => `
+      <div class="flex items-center gap-2">
+        <span class="text-white/40 text-[10px] w-4 text-right">${s}★</span>
+        <div class="w-20 h-1.5 bg-white/10 rounded-full overflow-hidden">
+          <div class="h-full bg-gold rounded-full" style="width:${p}%"></div>
+        </div>
+        <span class="text-white/25 text-[10px]">${p}%</span>
+      </div>
+    `).join('');
+  }
+
+  function populateDoctorDropdown() {
+    const sel = document.getElementById('formDokter');
+    doctors.forEach(d => { const o = document.createElement('option'); o.value=d.id; o.textContent=`${d.name} – ${d.specialty}`; sel.appendChild(o); });
+  }
+
+  // ── Leaflet Map ──────────────────────────────────────────────────────────
+  function initMap() {
+    const map = L.map('leafletMap', { scrollWheelZoom:false }).setView([-6.2607, 106.8147], 16);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution:'© <a href="https://openstreetmap.org/copyright">OpenStreetMap</a>', maxZoom:19
+    }).addTo(map);
+
+    const icon = L.divIcon({
+      className:'',
+      html:`<div style="width:42px;height:42px;background:#F8C463;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(248,196,99,.5);border:3px solid white;">
+        <span style="transform:rotate(45deg);font-size:17px;">🦷</span></div>`,
+      iconSize:[42,42], iconAnchor:[21,42], popupAnchor:[0,-46]
+    });
+
+    L.marker([-6.2607,106.8147],{icon}).addTo(map)
+     .bindPopup(`<div style="font-family:Ubuntu,sans-serif;padding:4px 2px;min-width:170px">
+       <div style="font-weight:700;font-size:13px;color:#0E0E14;margin-bottom:3px">🦷 Arcade Dental</div>
+       <div style="font-size:12px;color:#6B6B8A">Jl. Kemang Raya No. 88</div>
+       <div style="font-size:12px;color:#6B6B8A;margin-bottom:8px">Jakarta Selatan 12730</div>
+       <a href="https://maps.google.com/?q=-6.2607,106.8147" target="_blank"
+          style="display:inline-block;background:#F8C463;color:#0E0E14;font-weight:700;font-size:11px;padding:5px 12px;border-radius:20px;text-decoration:none">
+         Buka di Google Maps ↗</a></div>`, {maxWidth:240}).openPopup();
+  }
+
+  // ── Modal Konsultasi ─────────────────────────────────────────────────────
+  function openKonsultasiModal(doctorId) {
+    const m = document.getElementById('konsultasiModal');
+    m.classList.remove('hidden'); m.classList.add('flex');
+    document.body.classList.add('overflow-hidden');
+    document.getElementById('konsultasiForm').classList.remove('hidden');
+    document.getElementById('konsultasiSuccess').classList.add('hidden');
+    document.getElementById('konsultasiFooter').classList.remove('hidden');
+    document.getElementById('formError').classList.add('hidden');
+    selectedSession = '';
+    document.querySelectorAll('.sesi-btn').forEach(b => { b.classList.remove('border-gold','bg-gold/10'); b.classList.add('border-ink/15'); });
+
+    const badge = document.getElementById('selectedDoctorBadge');
+    const docGroup = document.getElementById('doctorSelectGroup');
+    if (doctorId) {
+      const doc = doctors.find(d => d.id===doctorId);
+      document.getElementById('selectedDoctorName').textContent = doc.name;
+      document.getElementById('selectedDoctorSpec').textContent = doc.specialty;
+      document.getElementById('selectedDoctorImg').src = doc.photo;
+      document.getElementById('formDokter').value = doctorId;
+      badge.classList.remove('hidden'); badge.classList.add('flex');
+      docGroup.classList.add('hidden');
+    } else {
+      badge.classList.add('hidden'); badge.classList.remove('flex');
+      docGroup.classList.remove('hidden');
+    }
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('formTanggal').min = today;
+    document.getElementById('formTanggal').value = today;
+  }
+
+  function clearSelectedDoctor() {
+    document.getElementById('selectedDoctorBadge').classList.add('hidden');
+    document.getElementById('selectedDoctorBadge').classList.remove('flex');
+    document.getElementById('doctorSelectGroup').classList.remove('hidden');
+    document.getElementById('formDokter').value = '';
+  }
+
+  function closeKonsultasiModal() {
+    document.getElementById('konsultasiModal').classList.add('hidden');
+    document.getElementById('konsultasiModal').classList.remove('flex');
+    document.body.classList.remove('overflow-hidden');
+  }
+
+  function selectSession(btn, time) {
+    selectedSession = time;
+    document.querySelectorAll('.sesi-btn').forEach(b => { b.classList.remove('border-gold','bg-gold/10'); b.classList.add('border-ink/15'); });
+    btn.classList.add('border-gold','bg-gold/10'); btn.classList.remove('border-ink/15');
+  }
+
+  function submitKonsultasi() {
+    const nama = document.getElementById('formNama').value.trim();
+    const phone = document.getElementById('formPhone').value.trim();
+    const dokter = document.getElementById('formDokter').value;
+    const tanggal = document.getElementById('formTanggal').value;
+    if (!nama) { showFormError('Nama lengkap wajib diisi.'); return; }
+    if (!phone) { showFormError('Nomor WhatsApp wajib diisi.'); return; }
+    if (!dokter) { showFormError('Silakan pilih dokter.'); return; }
+    if (!tanggal) { showFormError('Tanggal kunjungan wajib dipilih.'); return; }
+    if (!selectedSession) { showFormError('Silakan pilih sesi kunjungan.'); return; }
+    document.getElementById('formError').classList.add('hidden');
+    const doc = doctors.find(d => d.id==dokter);
+    const sesi = selectedSession==='08:00' ? 'Sesi Pagi (08:00–12:00)' : 'Sesi Sore (13:00–17:00)';
+    const tgl = new Date(tanggal).toLocaleDateString('id-ID',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('konsultasiForm').classList.add('hidden');
+    document.getElementById('konsultasiFooter').classList.add('hidden');
+    document.getElementById('konsultasiSuccess').classList.remove('hidden');
+    document.getElementById('successDetail').innerHTML = `
+      <div class="space-y-2">
+        <div class="flex justify-between"><span class="text-smoke">Pasien</span><span class="font-bold text-ink">${nama}</span></div>
+        <div class="flex justify-between"><span class="text-smoke">Dokter</span><span class="font-bold text-ink text-right">${doc.name}</span></div>
+        <div class="flex justify-between"><span class="text-smoke">Tanggal</span><span class="font-bold text-ink">${tgl}</span></div>
+        <div class="flex justify-between"><span class="text-smoke">Sesi</span><span class="font-bold text-ink">${sesi}</span></div>
+      </div>`;
+  }
+
+  function showFormError(msg) {
+    const el = document.getElementById('formError'); el.textContent = msg; el.classList.remove('hidden');
+  }
+
+  // ── Modal Rating ─────────────────────────────────────────────────────────
+  const ratingLabels = {1:'Sangat Tidak Puas 😞',2:'Tidak Puas 😕',3:'Cukup 😐',4:'Puas 😊',5:'Sangat Puas! ⭐'};
+
+  function openRatingModal() {
+    const m = document.getElementById('ratingModal');
+    m.classList.remove('hidden'); m.classList.add('flex');
+    document.body.classList.add('overflow-hidden');
+    selectedRating = 0;
+    ['ratingNama','ratingKomentar'].forEach(id => document.getElementById(id).value='');
+    document.getElementById('ratingLabel').textContent = 'Pilih bintang di atas';
+    document.getElementById('ratingFormContent').classList.remove('hidden');
+    document.getElementById('ratingSuccess').classList.add('hidden');
+    document.getElementById('ratingError').classList.add('hidden');
+    updateStars(0);
+  }
+
+  function closeRatingModal() {
+    document.getElementById('ratingModal').classList.add('hidden');
+    document.getElementById('ratingModal').classList.remove('flex');
+    document.body.classList.remove('overflow-hidden');
+  }
+
+  function setRating(n) { selectedRating=n; updateStars(n); document.getElementById('ratingLabel').textContent=ratingLabels[n]; }
+  function updateStars(n) {
+    document.querySelectorAll('.star-btn').forEach((b,i) => { b.classList.toggle('text-gold',i<n); b.classList.toggle('text-ink/15',i>=n); });
+  }
+
+  function submitRating() {
+    const nama = document.getElementById('ratingNama').value.trim();
+    const komentar = document.getElementById('ratingKomentar').value.trim();
+    const errEl = document.getElementById('ratingError');
+    if (!selectedRating) { errEl.textContent='Silakan pilih rating bintang.'; errEl.classList.remove('hidden'); return; }
+    if (!nama) { errEl.textContent='Nama wajib diisi.'; errEl.classList.remove('hidden'); return; }
+    if (!komentar) { errEl.textContent='Ulasan tidak boleh kosong.'; errEl.classList.remove('hidden'); return; }
+    errEl.classList.add('hidden');
+    reviews.unshift({name:nama,rating:selectedRating,date:'Baru saja',comment:komentar,doctor:'Arcade Dental'});
+    renderReviews();
+    document.getElementById('ratingFormContent').classList.add('hidden');
+    document.getElementById('ratingSuccess').classList.remove('hidden');
+  }
+
+  // ── Chat ─────────────────────────────────────────────────────────────────
+  function toggleChat() {
+    const panel = document.getElementById('chatPanel');
+    const icon = document.getElementById('chatBtnIcon');
+    const dot = document.getElementById('chatNotifDot');
+    const isOpen = panel.classList.contains('flex');
+    if (isOpen) {
+      panel.classList.remove('flex'); panel.classList.add('hidden');
+      icon.setAttribute('icon','solar:chat-round-dots-bold');
+    } else {
+      panel.classList.add('flex'); panel.classList.remove('hidden');
+      icon.setAttribute('icon','ic:baseline-close');
+      dot.classList.add('hidden');
+      if (!chatReady) { chatReady=true; renderChat(); }
+    }
+  }
+
+  function renderChat() {
+    const c = document.getElementById('chatMessages');
+    c.innerHTML = chatLog.map(m => {
+      if (m.from==='mia') return `
+        <div class="flex items-end gap-2">
+          <div class="w-7 h-7 rounded-full bg-gold flex items-center justify-center shrink-0">
+            <iconify-icon icon="solar:tooth-bold" class="text-ink text-[12px]"></iconify-icon>
+          </div>
+          <div class="bg-white rounded-2xl rounded-bl-sm px-4 py-2.5 shadow-sm max-w-[82%]">
+            <p class="text-ink text-[12px] leading-relaxed whitespace-pre-line">${m.text}</p>
+          </div>
+        </div>`;
+      if (m.from==='user') return `
+        <div class="flex justify-end">
+          <div class="bg-gold rounded-2xl rounded-br-sm px-4 py-2.5 max-w-[80%]">
+            <p class="text-ink text-[12px] leading-relaxed">${m.text}</p>
+          </div>
+        </div>`;
+      if (m.from==='action') return `
+        <div class="flex justify-start mt-1">
+          <button onclick="toggleChat(); openKonsultasiModal(null)" class="flex items-center gap-2 bg-gold text-ink font-bold text-[12px] px-4 py-2.5 rounded-full hover:bg-gold-light transition-all">
+            <iconify-icon icon="solar:calendar-add-bold"></iconify-icon>Buat Janji Sekarang
+          </button>
+        </div>`;
+      return '';
+    }).join('');
+    c.scrollTop = c.scrollHeight;
+  }
+
+  function sendQuick(text) { sendMsg(text); }
+  function handleChatKey(e) { if (e.key==='Enter') sendChatMessage(); }
+  function sendChatMessage() {
+    const input = document.getElementById('chatInput');
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+    sendMsg(text);
+  }
+
+  function sendMsg(text) {
+    chatLog.push({from:'user', text});
+    renderChat();
+    const typing = document.getElementById('typingIndicator');
+    typing.classList.remove('hidden');
+    setTimeout(() => {
+      typing.classList.add('hidden');
+      const lower = text.toLowerCase();
+      let reply = 'Terima kasih atas pertanyaannya! Untuk info lebih lengkap, hubungi kami di (021) 123-4567. Ada yang ingin ditanyakan lagi? 😊';
+      let isBooking = false;
+
+      if (lower.includes('jadwal') || lower.includes('jam') || lower.includes('schedule')) {
+        reply = chatAnswers['info jadwal'];
+      } else if (lower.includes('harga') || lower.includes('biaya') || lower.includes('tarif') || lower.includes('layanan')) {
+        reply = chatAnswers['harga'];
+      } else if (lower.includes('lokasi') || lower.includes('alamat') || lower.includes('klinik') || lower.includes('tempat')) {
+        reply = chatAnswers['lokasi'];
+      } else if (lower.includes('janji') || lower.includes('booking') || lower.includes('konsultasi') || lower.includes('daftar')) {
+        reply = chatAnswers['buat janji']; isBooking = true;
+      }
+
+      chatLog.push({from:'mia', text:reply});
+      if (isBooking) chatLog.push({from:'action', text:'booking'});
+      renderChat();
+    }, 1100);
+  }
+
+  // ── Init ─────────────────────────────────────────────────────────────────
+  document.addEventListener('DOMContentLoaded', () => {
+    renderDoctors();
+    renderSchedule();
+    renderReviews();
+    renderRatingBars();
+    populateDoctorDropdown();
+    initMap();
+  });
+</script>
+</body>
+</html>
